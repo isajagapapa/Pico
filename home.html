@@ -10,14 +10,14 @@
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 
-<body onload="checkCookies()">
+<body>
     <div class="container mt-3 mb-3">
         <nav class="navbar navbar-expand-lg bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">Factory Login</a>
                 <div class="d-flex">
-                    <a href="index.html" class="btn btn-primary btn-md m-2">Home</a>
-                    <a class="m-2 nav-link" onclick="removeCookies()">Sign Out</a>
+                    <a href="home.html" class="btn btn-primary btn-md m-2">Home</a>
+                    <a style="cursor: pointer;" class="m-2 nav-link" onclick="removeCookies()">Sign Out</a>
                 </div>
             </div>
         </nav>
@@ -28,7 +28,7 @@
         <div class="card mt-3">
             <div class="card-body text-bg-light">
                 <div id="no-flag">
-                    <h1 class="m-4 text-center">No flag for you</h1>
+                    <h1 class="m-4 text-center" id="noflag-h1">No flag for you</h1>
                 </div>
                 <div id="flag">
                     <h1 class="m-4 text-center" id="flag-h1"></h1>
@@ -48,7 +48,7 @@
     integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
 </script>
 
-<script>
+<!-- <script>
     const checkCookies = () => {
         if (document.cookie.includes("admin=true") || document.cookie.includes("admin=True")) {
             document.querySelector("#no-flag").style.display = "none"
@@ -60,10 +60,50 @@
         }
     }
 
+</script> -->
+
+<script>
+    function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) { 
+        let c=ca[i]; 
+        while (c.charAt(0)==' ' ) 
+        { 
+            c=c.substring(1); 
+        } if (c.indexOf(name)==0) {
+            return c.substring(name.length, c.length); 
+            } 
+        } 
+        return "" ; 
+    }
+
+    function checkCookie() {
+        let admin = getCookie("admin");
+        let h1 = document.getElementById("flag-h1")
+        let detail = document.getElementById("detail-flag")
+        let noflag = document.getElementById("noflag-h1")
+        if (admin == "true" || admin == "True") {
+            document.querySelector("#no-flag").style.display = "none"
+            h1.innerHTML = "Flag:"
+            detail.innerHTML = "TI404{F4iS41aNDa12I3F_010_015}"
+        } else {
+            document.querySelector("#flag-h1").style.display = "none"
+            document.querySelector("#detail-flag").style.display = "none"
+            noflag.innerHTML = "No flag for you"
+        }
+    }
+    checkCookie();
+</script>
+<script>
     const removeCookies = () => {
         // delete all cookies
-        document.cookie.split(";").forEach(function (c) {
+        /* document.cookie.split(";").forEach(function (c) {
             document.cookie = c.replace(/^ +/, "");
+        }); */
+        document.cookie.split(";").forEach(function(c) { 
+            document.cookie = c.replace(/^ +/, "").replace(/=.*/,"=;expires=" + new Date().toUTCString() + ";path=/"); 
         });
         window.location.href = "index.html"
     }
